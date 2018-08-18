@@ -1,0 +1,39 @@
+{
+  "name": "druc/xdt-parser",
+  "description": "Parse German healthcare data interchange formats GDT, LDT and BDT.",
+  "type": "library",
+  "license": "MIT",
+  "version": "0.1",
+  "homepage": "https://github.com/druc/xdt-parser",
+  "keywords": [
+    "XDT",
+    "LDT",
+    "GDT",
+    "BDT",
+    "parser"
+  ],
+  "authors": [
+    {
+      "name": "Constantin Druc",
+      "email": "druc@pinsmile.com",
+      "homepage": "https://cdruc.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Druc\\XdtParser\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Druc\\XdtParser\\Test\\": "tests"
+    }
+  }
+}
