@@ -3,7 +3,6 @@
   "description": "Parse German healthcare data interchange formats GDT, LDT and BDT.",
   "type": "library",
   "license": "MIT",
-  "version": "0.1",
   "homepage": "https://github.com/druc/xdt-parser",
   "keywords": [
     "XDT",

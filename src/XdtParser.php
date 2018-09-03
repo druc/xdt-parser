@@ -88,9 +88,9 @@ class XdtParser
 
     /**
      * @param string $field
-     * @return array
+     * @return array|mixed|null
      */
-    public function find(string $field): array
+    public function find(string $field)
     {
         $result = [];
 
@@ -100,7 +100,14 @@ class XdtParser
             }
         }
 
-        return $result;
+        switch (count($result)) {
+            case 0:
+                return null;
+            case 1:
+                return $result[0];
+            default:
+                return $result;
+        }
     }
 
     /**
@@ -129,36 +136,21 @@ class XdtParser
 
         foreach ($this->fieldsMap as $field => $key) {
             $result[$field] = $this->find($field);
-
-            switch (count($result[$field])) {
-                case 0:
-                    $result[$field] = null;
-                    break;
-                case 1:
-                    $result[$field] = $result[$field][0];
-                    break;
-            }
         }
 
         return $result;
     }
 
-    public function all()
+    /**
+     * @return array
+     */
+    public function all(): array
     {
         $result = [];
 
         foreach ($this->parsedRows as $row) {
             $field = array_search($row['field'], $this->fieldsMap) ?: $row['field'];
             $result[$field] = $this->find($field);
-
-            switch (count($result[$field])) {
-                case 0:
-                    $result[$field] = null;
-                    break;
-                case 1:
-                    $result[$field] = $result[$field][0];
-                    break;
-            }
         }
 
         return $result;
