@@ -120,4 +120,11 @@ class XdtParserTest extends TestCase
             ],
         ], $this->parser->getMapped());
     }
+    
+    /** @test */
+    public function gets_all_fields_including_unmapped_ones()
+    {
+        $this->assertTrue(array_key_exists('observation', $this->parser->all()));
+        $this->assertTrue(array_key_exists('8315', $this->parser->all()));
+    }
 }

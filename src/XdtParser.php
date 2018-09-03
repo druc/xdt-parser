@@ -6,7 +6,7 @@ class XdtParser
 {
     /**
      * Array to hold mappings to different xdt keys
-     * Eg: ['first_name' => '2031', 'last_name' => '2031];
+     * Eg: ['first_name' => '2031', 'last_name' => '2031'];
      * @var array
      */
     private $fieldsMap;
@@ -128,6 +128,27 @@ class XdtParser
         $result = [];
 
         foreach ($this->fieldsMap as $field => $key) {
+            $result[$field] = $this->find($field);
+
+            switch (count($result[$field])) {
+                case 0:
+                    $result[$field] = null;
+                    break;
+                case 1:
+                    $result[$field] = $result[$field][0];
+                    break;
+            }
+        }
+
+        return $result;
+    }
+
+    public function all()
+    {
+        $result = [];
+
+        foreach ($this->parsedRows as $row) {
+            $field = array_search($row['field'], $this->fieldsMap) ?: $row['field'];
             $result[$field] = $this->find($field);
 
             switch (count($result[$field])) {
