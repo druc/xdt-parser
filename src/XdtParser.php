@@ -28,7 +28,7 @@ class XdtParser
      * @param array $fieldsMap
      * @return XdtParser
      */
-    public static function make(string $content, array $fieldsMap = []): self
+    public static function make(string $content, array $fieldsMap = [])
     {
         return new static($content, $fieldsMap);
     }
@@ -45,7 +45,7 @@ class XdtParser
         $this->parseXdtRows();
     }
 
-    private function parseXdtRows(): void
+    private function parseXdtRows()
     {
         foreach ($this->xdtRows as $row) {
             if ($row === '') {
@@ -59,7 +59,7 @@ class XdtParser
      * @param string $row
      * @return array
      */
-    private function parseSingleXdtRow(string $row): array
+    private function parseSingleXdtRow(string $row)
     {
         $matched = preg_match('/^\\r?\\n?(\\d{3})(\\d{4})(.*?)\\r?\\n?$/', $row, $matches);
 
@@ -117,7 +117,7 @@ class XdtParser
      * @param string $field
      * @return string
      */
-    private function getKey(string $field): string
+    private function getKey(string $field)
     {
         return $this->fieldsMap[$field] ?? $field;
     }
@@ -125,7 +125,7 @@ class XdtParser
     /**
      * @return bool
      */
-    public function isCorrupt(): bool
+    public function isCorrupt()
     {
         return $this->corrupted;
     }
@@ -133,7 +133,7 @@ class XdtParser
     /**
      * @return array
      */
-    public function getMapped(): array
+    public function getMapped()
     {
         $result = [];
 
@@ -147,7 +147,7 @@ class XdtParser
     /**
      * @return array
      */
-    public function all(): array
+    public function all()
     {
         $result = [];
 
@@ -163,7 +163,7 @@ class XdtParser
      * @param array $fieldsMap
      * @return XdtParser
      */
-    public function setFieldsMap(array $fieldsMap): XdtParser
+    public function setFieldsMap(array $fieldsMap)
     {
         $this->fieldsMap = $fieldsMap;
         return $this;
@@ -172,7 +172,7 @@ class XdtParser
     /**
      * @return array
      */
-    public function getFieldsMap(): array
+    public function getFieldsMap()
     {
         return $this->fieldsMap;
     }
