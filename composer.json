@@ -1,0 +1,49 @@
+{
+  "name": "druc/xdt-parser",
+  "type": "library",
+  "description": "Parse German healthcare data interchange formats GDT, LDT and BDT",
+  "keywords": [
+    "druc",
+    "xdt-parser"
+  ],
+  "homepage": "https://github.com/druc/xdt-parser",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Constantin Druc",
+      "email": "druc@pinsmile.com",
+      "homepage": "https://pinsmile.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "~7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.*",
+    "squizlabs/php_codesniffer": "^2.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Druc\\XdtParser\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Druc\\XdtParser\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+    "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
