@@ -54,6 +54,18 @@ $this->parser->removeFields(['id']);
 
 // Get all values (mapped and unkown/unmapped values)
 $this->parser->all(); // -> ['3213' => 'unkown code value', 'id' => 123, 'observation' => ['observation 1', 'observation 2']];
+
+// Get field key
+$this->parser->getKey('observation'); // -> 6220 if the mapping contains 'observation' => '6220'
+
+// Get field name
+$this->parser->getFieldName('6220'); // -> `observation` if the mapping contains 'observation' => '6220'
+
+// Get xdtRows
+$this->parser->getXdtRows(); // will return an array with the unparsed rows of your content: ['0346220Dies ist ein zweizeiliger', '0143102Frank']
+
+// Parse single string
+$this->parser->parseSingle('0346220Dies ist ein zweizeiliger'); // -> ['length' => 32, field = '6220', 'value' => 'Dies ist ein zweizeiliger'];
 ```
 
 ## Change log

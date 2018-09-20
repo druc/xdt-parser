@@ -23,13 +23,11 @@ class XdtParserTest extends TestCase
         $this->assertEquals('LZBD_SYS', $this->parser->first('id'));
     }
 
-    /** @test */
     public function testFindsValueFirstByFieldId()
     {
         $this->assertEquals('LZBD_SYS', $this->parser->first('8316'));
     }
 
-    /** @test */
     public function testFindsAllValuesWithTheSameFieldName()
     {
         $this->assertEquals([
@@ -38,7 +36,6 @@ class XdtParserTest extends TestCase
         ], $this->parser->find('observation'));
     }
 
-    /** @test */
     public function testFindsAllValuesWithTheSameFieldId()
     {
         $this->assertEquals([
@@ -47,7 +44,6 @@ class XdtParserTest extends TestCase
         ], $this->parser->find('6220'));
     }
 
-    /** @test */
     public function testChecksForCorruptFiles()
     {
         $this->parser = XdtParser::make(file_get_contents(__DIR__ . '/data/corrupt_sample.ldt'));
@@ -57,7 +53,6 @@ class XdtParserTest extends TestCase
         $this->assertFalse($this->parser->isCorrupt());
     }
 
-    /** @test */
     public function testGetMapped()
     {
         $this->assertEquals([
@@ -69,7 +64,6 @@ class XdtParserTest extends TestCase
         ], $this->parser->getMapped());
     }
 
-    /** @test */
     public function testUnfindableFieldsAreSetToNullOnGetMapped()
     {
         $this->parser->setFieldsMap([
@@ -88,7 +82,6 @@ class XdtParserTest extends TestCase
         ], $this->parser->getMapped());
     }
 
-    /** @test */
     public function testAddExtraFieldKeyMaps()
     {
         $this->parser->addFieldsMap([
@@ -107,7 +100,6 @@ class XdtParserTest extends TestCase
         ], $this->parser->getMapped());
     }
 
-    /** @test */
     public function testRemoveFieldKeyMaps()
     {
         $this->parser->removeFields(['id']);
@@ -120,11 +112,35 @@ class XdtParserTest extends TestCase
         ], $this->parser->getMapped());
     }
 
-    /** @test */
     public function testGetAllFieldsIncludingUnmapped()
     {
         $this->assertTrue(array_key_exists('observation', $this->parser->all()));
         $this->assertTrue(array_key_exists('8315', $this->parser->all()));
+    }
+
+    public function testParseSingle()
+    {
+        $this->assertEquals([
+            'length' => 19,
+            'key' => '3101',
+            'value' => 'Mustermann',
+        ], $this->parser->parseSingle('0193101Mustermann'));
+    }
+
+    public function testGetKey()
+    {
+        $this->assertEquals('6220', $this->parser->getKey('observation'));
+    }
+
+    public function testGetFieldName()
+    {
+        $this->assertEquals('observation', $this->parser->getFieldName('6220'));
+    }
+    
+    public function testGetXdtRows()
+    {
+        $this->parser = XdtParser::make('0193101Mustermann' . PHP_EOL . '0036202Dsq');
+        $this->assertEquals(['0193101Mustermann', '0036202Dsq'], $this->parser->getXdtRows());
     }
 
     public function testSkipsEmptyLines()

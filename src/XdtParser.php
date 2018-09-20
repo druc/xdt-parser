@@ -51,25 +51,25 @@ class XdtParser
             if ($row === '') {
                 continue;
             }
-            $this->parsedRows[] = $this->parseSingleXdtRow($row);
+            $this->parsedRows[] = $this->parseSingle($row);
         }
     }
 
     /**
-     * @param string $row
+     * @param string $string
      * @return array
      */
-    private function parseSingleXdtRow(string $row)
+    public function parseSingle(string $string)
     {
-        $matched = preg_match('/^\\r?\\n?(\\d{3})(\\d{4})(.*?)\\r?\\n?$/', $row, $matches);
+        $matched = preg_match('/^\\r?\\n?(\\d{3})(\\d{4})(.*?)\\r?\\n?$/', $string, $matches);
 
         if (!$matched) {
             $this->corrupted = true;
         }
 
         return [
-            'length' => $matches[1] ?? null,
-            'field' => $matches[2] ?? null,
+            'length' => $matches[1] ? intval($matches[1]) : null,
+            'key' => $matches[2] ?? null,
             'value' => $matches[3] ?? null
         ];
     }
@@ -81,7 +81,7 @@ class XdtParser
     public function first(string $field)
     {
         foreach ($this->parsedRows as $row) {
-            if ($row['field'] === $this->getKey($field)) {
+            if ($row['key'] === $this->getKey($field)) {
                 return $row['value'];
             }
         }
@@ -98,7 +98,7 @@ class XdtParser
         $result = [];
 
         foreach ($this->parsedRows as $row) {
-            if ($row['field'] === $this->getKey($field)) {
+            if ($row['key'] === $this->getKey($field)) {
                 $result[] = $row['value'];
             }
         }
@@ -117,9 +117,23 @@ class XdtParser
      * @param string $field
      * @return string
      */
-    private function getKey(string $field)
+    public function getKey(string $field)
     {
         return $this->fieldsMap[$field] ?? $field;
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getFieldName(string $key)
+    {
+        foreach ($this->fieldsMap as $field => $k) {
+            if ($k === $key) {
+                return $field;
+            }
+        }
+        return $key;
     }
 
     /**
@@ -152,7 +166,7 @@ class XdtParser
         $result = [];
 
         foreach ($this->parsedRows as $row) {
-            $field = array_search($row['field'], $this->fieldsMap) ?: $row['field'];
+            $field = array_search($row['key'], $this->fieldsMap) ?: $row['key'];
             $result[$field] = $this->find($field);
         }
 
@@ -195,5 +209,13 @@ class XdtParser
         foreach ($fields as $field) {
             unset($this->fieldsMap[$field]);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getXdtRows(): array
+    {
+        return $this->xdtRows;
     }
 }

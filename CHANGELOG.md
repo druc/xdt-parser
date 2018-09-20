@@ -1,22 +1,7 @@
 # Changelog
-
-All notable changes to `xdt-parser` will be documented in this file.
-
-Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
-
-## NEXT - YYYY-MM-DD
-
+## v0.1.0
 ### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- `getFieldName($key)` - takes a xdt key and return the mapped field (if any)
+- `getXdtRows()` - returns an array with xdt rows
+- `getKey($field)` - takes a field and returns its key
+- `parseSingle($xdtRow)` - parses a single xdtRow: `['length' => 8, 'key' => '3210', 'value' => 'pinsmile']`
