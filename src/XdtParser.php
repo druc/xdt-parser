@@ -11,9 +11,6 @@ class XdtParser
      */
     private $fieldsMap;
 
-    /** @var bool */
-    private $corrupted = false;
-
     /**
      * Holds the content unparsed rows
      * @var array
@@ -64,7 +61,7 @@ class XdtParser
         $matched = preg_match('/^\\r?\\n?(\\d{3})(\\d{4})(.*?)\\r?\\n?$/', $string, $matches);
 
         if (!$matched) {
-            $this->corrupted = true;
+            throw new CorruptedXdt;
         }
 
         return [
@@ -134,14 +131,6 @@ class XdtParser
             }
         }
         return $key;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCorrupt()
-    {
-        return $this->corrupted;
     }
 
     /**

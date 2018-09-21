@@ -30,9 +30,6 @@ $this->parser = XdtParser::make(
     ['id' => '8316', 'observation' => '6220'] // field mapping
 );
 
-// Check for corrupt file
-$this->parser->isCorrupt(); // -> true/false
-
 // Get first value matching the id field
 $this->parser->first('id'); // --> '123'
 

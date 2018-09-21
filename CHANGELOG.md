@@ -1,4 +1,11 @@
 # Changelog
+## v0.2.0
+### Added
+- `CorruptedXdt` exception is now thrown when invalid content is passed in
+### Removed
+- `isCorrupted()` - an exception is thrown when the content is invalid
+
+
 ## v0.1.0
 ### Added
 - `getFieldName($key)` - takes a xdt key and return the mapped field (if any)

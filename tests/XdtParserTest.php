@@ -2,6 +2,7 @@
 
 namespace Druc\XdtParser\Tests;
 
+use Druc\XdtParser\CorruptedXdt;
 use Druc\XdtParser\XdtParser;
 use PHPUnit\Framework\TestCase;
 
@@ -9,13 +10,14 @@ class XdtParserTest extends TestCase
 {
     /** @var XdtParser */
     private $parser;
+    private $fieldMap;
 
     protected function setUp()
     {
         parent::setUp();
-        $fieldMap = ['id' => '8316', 'observation' => '6220'];
+        $this->fieldMap = ['id' => '8316', 'observation' => '6220'];
         $content = file_get_contents(__DIR__ . '/data/sample.ldt');
-        $this->parser = XdtParser::make($content, $fieldMap);
+        $this->parser = XdtParser::make($content, $this->fieldMap);
     }
 
     public function testFindsValueFirstByFieldName()
@@ -44,13 +46,10 @@ class XdtParserTest extends TestCase
         ], $this->parser->find('6220'));
     }
 
-    public function testChecksForCorruptFiles()
+    public function testThrowsExceptionOnCorruptedFiles()
     {
+        $this->expectException(CorruptedXdt::class);
         $this->parser = XdtParser::make(file_get_contents(__DIR__ . '/data/corrupt_sample.ldt'));
-        $this->assertTrue($this->parser->isCorrupt());
-
-        $this->parser = XdtParser::make(file_get_contents(__DIR__ . '/data/sample.ldt'));
-        $this->assertFalse($this->parser->isCorrupt());
     }
 
     public function testGetMapped()
@@ -143,9 +142,9 @@ class XdtParserTest extends TestCase
         $this->assertEquals(['0193101Mustermann', '0036202Dsq'], $this->parser->getXdtRows());
     }
 
-    public function testSkipsEmptyLines()
+    public function testParsesFilesWithEmptyLines()
     {
-        $this->parser = XdtParser::make(file_get_contents(__DIR__ . '/data/empty_line_sample.ldt'));
-        $this->assertFalse($this->parser->isCorrupt());
+        $this->parser = XdtParser::make(file_get_contents(__DIR__ . '/data/empty_line_sample.ldt'), $this->fieldMap);
+        $this->assertEquals('LZBD_SYS', $this->parser->first('id'));
     }
 }
