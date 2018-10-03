@@ -45,7 +45,7 @@ class XdtParser
     private function parseXdtRows()
     {
         foreach ($this->xdtRows as $row) {
-            if ($row === '') {
+            if (trim($row) === '') {
                 continue;
             }
             $this->parsedRows[] = $this->parseSingle($row);

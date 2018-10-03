@@ -135,7 +135,7 @@ class XdtParserTest extends TestCase
     {
         $this->assertEquals('observation', $this->parser->getFieldName('6220'));
     }
-    
+
     public function testGetXdtRows()
     {
         $this->parser = XdtParser::make('0193101Mustermann' . PHP_EOL . '0036202Dsq');
@@ -145,6 +145,12 @@ class XdtParserTest extends TestCase
     public function testParsesFilesWithEmptyLines()
     {
         $this->parser = XdtParser::make(file_get_contents(__DIR__ . '/data/empty_line_sample.ldt'), $this->fieldMap);
+        $this->assertEquals('LZBD_SYS', $this->parser->first('id'));
+    }
+
+    public function testParsesFilesWithSpacedLines()
+    {
+        $this->parser = XdtParser::make(file_get_contents(__DIR__ . '/data/spaced_line_sample.ldt'), $this->fieldMap);
         $this->assertEquals('LZBD_SYS', $this->parser->first('id'));
     }
 }
